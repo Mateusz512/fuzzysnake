@@ -89,9 +89,10 @@ class GameController : Controller() {
                 Direction.DOWN -> head.y < BOARD_HEIGHT - 1
                 Direction.LEFT -> head.x > 0
             }.and(
-                snake.none {
-                    it == head.copy().move(direction)
-                }
+                snake.withoutLast()
+                    .none {
+                        it == head.copy().move(direction)
+                    }
             )
         }
     }
@@ -133,4 +134,8 @@ class GameController : Controller() {
         const val BOARD_WIDTH = 22
         const val BOARD_HEIGHT = 13
     }
+}
+
+private fun List<Point>.withoutLast(): List<Point> {
+    return this.subList(0, size - 1)
 }
